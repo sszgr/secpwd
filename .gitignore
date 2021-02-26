@@ -1,0 +1,9 @@
+.idea
+.venv
+*.py
+Pipfile*
+*.spec
+build
+dist
+include
+lib

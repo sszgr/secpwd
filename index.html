@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>SecPwd-安全密码生成</title>
+    <meta charset="utf-8" />
+    <!--    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />-->
+    <link href="/static/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/bootstrap-slider.min.css" rel="stylesheet">
+
+    <script src="/static/jquery.min.js"></script>
+    <script src="/static/bootstrap.min.js"></script>
+    <script src="/static/vue.min.js"></script>
+    <script src="/static/bootstrap-slider.min.js"></script>
+    <script src="/static/clipboard.min.js"></script>
+    <script src="/static/crypto-js.min.js"></script>
+
+    <style type="text/css">
+        .starter-template {
+            text-align: center;
+        }
+
+        .tab-container {
+            padding: 15px;
+            border-style: solid;
+            border-color: #ddd;
+            border-width: 1px;
+            border-radius: 4px 4px 0 0;
+        }
+
+        table tr td {
+            text-align: center;
+        }
+
+        table tr th {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">SecPwd</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/">主页</a></li>
+                    <li><a href="viewsource.html">ViewSource</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="app">
+        <div class="container">
+
+            <div class="starter-template">
+                <h2>切换安全的密码</h2>
+                <p class="lead">前端使用主密码+辅助密码进行AES后SHA256加密<br />可以配合后端来生成密码，用于确保密码安全性
+                    <br />您可以在这里查看<a href="viewsource.html">源代码</a>或提交ISSUE到该项目:<a
+                        href="http://github.com/sszgr/secpwd">http://github.com/sszgr/secpwd</a>
+                </p>
+            </div>
+        </div>
+        <div class="container">
+            <ul class="nav nav-tabs" id="modeTabs" role="tablist">
+                <li role="presentation"><a href="#cont-main" @click="mgen=true" role="tab" data-toggle="tab"> 双密码</a>
+                </li>
+                <li role="presentation"><a href="#cont-key" @click="mgen=false" role="tab" data-toggle="tab"> 安全Key</a>
+                </li>
+            </ul>
+        </div>
+        <div class="container tab-content">
+            <div class="tab-container tab-pane" role="tabpanel" id="cont-main">
+                <div class="form-group has-success">
+                    <label class="control-label" for="txtManPwd">主密码</label>
+                    <input type="password" class="form-control" id="txtManPwd" v-model="mpwd"
+                        aria-describedby="helpBlock1">
+                    <span id="helpBlock1" class="help-block">输入一个相对安全且易记的密码，应尽量避免存在 个人常用信息。推荐使用较长的组合形式。</span>
+                </div>
+                <div class="form-group has-success">
+                    <label class="control-label" for="txtFlagPwd">辅助密码</label>
+                    <input type="password" class="form-control" id="txtFlagPwd" v-model="fpwd" @input="refresh()"
+                        aria-describedby="helpBlock2">
+                    <span id="helpBlock2" class="help-block">输入一个针对性且不用强调记忆的标识作为辅助密 码，如：@baidu.com、QQ、weibo..</span>
+                </div>
+            </div>
+            <div class="tab-container tab-pane" role="tabpanel" id="cont-key">
+                <div class="form-group has-success">
+                    <label class="control-label" for="txtKeyPwd">SecKey</label>
+                    <input type="text" class="form-control" id="txtKeyPwd" v-model="kpwd" @input="refresh()"
+                        aria-describedby="helpBlock3">
+                    <span id="helpBlock3" class="help-block">输入一个SHA256值作为SecKey进行密码生成。</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" @click="showOpt=!showOpt;refresh()">
+                        使用特殊符号进行密码生成
+                        <input type="text" v-show="showOpt" class="form-control" placeholder="Text input"
+                            v-model="symbols" @input="refresh()">
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-1">#</th>
+                        <th class="col-md-6">key</th>
+                        <th class="col-md-4">
+                            <input id="txtLen" type="text" data-slider-min="6" data-slider-value="16"
+                                data-slider-max="32" data-slider-step="1" />
+                        </th>
+                        <th class="col-md-1">copy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template v-for="item in tdataArr">
+                        <tr :class="[{'success':item.i=='0'}]">
+                            <td>{{ item.i }}</td>
+                            <td :id="'kid-'+item.i">{{ item.k }}</td>
+                            <td :id="'pid-'+item.i" class="pValue">{{ item.p_dis }}</td>
+                            <td>
+                                <div class="btn-group btn-group-xs" role="group"> <button type="button"
+                                        class="btn btn-default btnCopy"
+                                        :data-clipboard-target="'#kid-'+item.i">Key</button>
+                                    <button type="button" class="btn btn-default btnCopy"
+                                        :data-clipboard-target="'#pid-'+item.i">Pwd</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+<script src="sec.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#modeTabs a:first').tab('show');
+        vm.mpwd = SecObj.SHA256(String(Math.random()));
+        vm.refresh();
+        vm.mpwd = '';
+        vm.kpwd = '';
+    });
+    $('#modeTabs a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    })
+</script>
+
+<script type="text/javascript">
+    var data = {
+        mpwd: "",
+        fpwd: "",
+        kpwd: "",
+        plen: 16,
+        mgen: true,
+        showOpt: false,
+        symbols: "!@#",
+        tdataArr: []
+    };
+    var vm = new Vue({
+        el: "#app",
+        data: data,
+        methods: {
+            refresh: function () {
+                if (vm.mgen && vm.mpwd) {
+                    vm.kpwd = SecObj.GenKey(vm.mpwd, vm.fpwd, vm.symbols);
+                }
+                if (vm.kpwd) {
+                    let opt = {key: vm.kpwd, symbols: ""};
+                    if (vm.showOpt && vm.symbols) {
+                        opt.symbols = vm.symbols;
+                    }
+                    SecObj.GenSecPwd(opt, function (resp) {
+                        vm.tdataArr = [];
+                        resp.result.forEach(function (item) {
+                            item.p_dis = item.p.substring(0, vm.plen);
+                        });
+                        vm.tdataArr = resp.result;
+                    });
+                }
+            }
+        }
+    });
+    $("#txtLen").slider().on('change', function (e) {
+        vm.plen = e.value.newValue;
+        vm.tdataArr.forEach(function (item) {
+            item.p_dis = item.p.substring(0, vm.plen);
+        });
+    });
+    new ClipboardJS('.btnCopy');
+</script>
+
+</html>
