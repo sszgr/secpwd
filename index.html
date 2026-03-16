@@ -4,41 +4,359 @@
 <head>
     <title>SecPwd-安全密码生成</title>
     <meta charset="utf-8" />
-    <link href="static/bootstrap.min.css" rel="stylesheet">
-    <link href="static/bootstrap-slider.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/bootstrap-slider/10.6.2/css/bootstrap-slider.min.css" rel="stylesheet">
 
     <style type="text/css">
+        body {
+            color: #22313f;
+        }
+
+        .navbar {
+            margin-bottom: 24px;
+        }
+
+        .navbar-brand {
+            padding-left: 15px;
+        }
+
+        .navbar-collapse {
+            border-top: 0;
+            box-shadow: none;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            height: 50px;
+        }
+
+        .lang-switch {
+            font-size: 13px;
+            color: #90a0af;
+            letter-spacing: 0.04em;
+            line-height: 1;
+        }
+
+        .lang-switch a {
+            color: #5f6f7f;
+            text-decoration: none;
+        }
+
+        .lang-switch a:hover,
+        .lang-switch a:focus {
+            color: #22313f;
+            text-decoration: none;
+        }
+
+        .lang-switch a.active {
+            color: #22313f;
+            font-weight: 700;
+            cursor: default;
+        }
+
+        .navbar-actions .navbar-text {
+            display: flex;
+            align-items: center;
+            margin-top: 0;
+            margin-bottom: 0;
+            line-height: 1;
+        }
+
+        .app-shell {
+            padding-bottom: 32px;
+        }
+
+        .panel-soft {
+            background: #fff;
+            border: 1px solid #dbe4ee;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(31, 45, 61, 0.06);
+            margin-bottom: 18px;
+            overflow: hidden;
+        }
+
         .starter-template {
             text-align: center;
+            padding: 28px 20px 12px;
+        }
+
+        .starter-template h2 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .starter-template .lead {
+            margin-bottom: 0;
+            font-size: 17px;
+            line-height: 1.7;
+            color: #5c6b7a;
         }
 
         .tab-container {
-            padding: 15px;
-            border-style: solid;
-            border-color: #ddd;
-            border-width: 1px;
-            border-radius: 4px 4px 0 0;
+            padding: 20px;
+            border: 0;
+            background: #fff;
         }
 
         table tr td {
             text-align: center;
+            vertical-align: middle !important;
+            word-break: break-all;
         }
 
         table tr th {
             text-align: center;
+            vertical-align: middle !important;
+        }
+
+        .nav-wrap {
+            padding: 16px 20px 0;
+        }
+
+        .nav-tabs {
+            border-bottom: 1px solid #dbe4ee;
+        }
+
+        .nav-tabs > li > a {
+            border-radius: 10px 10px 0 0;
+            color: #4b5b6a;
+        }
+
+        .option-row {
+            padding: 0 20px 20px;
+        }
+
+        .symbol-input {
+            margin-top: 10px;
+            max-width: 240px;
+        }
+
+        .result-wrap {
+            padding: 0 20px 20px;
+        }
+
+        .result-card {
+            padding: 20px;
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+
+        .result-header h3 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .slider-inline {
+            min-width: 220px;
+            text-align: right;
+        }
+
+        .slider-inline .slider {
+            width: 180px !important;
+            margin-left: 10px;
+        }
+
+        .table-responsive {
+            border: 0;
+            margin-bottom: 0;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .btn-group.btn-group-xs > .btn + .btn {
+            margin-left: 4px;
+        }
+
+        .lead-break {
+            display: inline;
+        }
+
+        @media (max-width: 767px) {
+            .navbar {
+                margin-bottom: 16px;
+            }
+
+            .navbar-actions {
+                height: auto;
+                margin-top: 0;
+                margin-bottom: 0;
+                padding-top: 8px;
+                padding-bottom: 8px;
+            }
+
+            .container {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .starter-template {
+                padding: 22px 14px 8px;
+            }
+
+            .starter-template .lead {
+                font-size: 15px;
+            }
+
+            .lead-break {
+                display: block;
+            }
+
+            .nav-wrap,
+            .tab-container,
+            .option-row,
+            .result-wrap,
+            .result-card {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .nav-tabs > li {
+                float: none;
+                margin-bottom: 6px;
+            }
+
+            .nav-tabs > li > a {
+                margin-right: 0;
+                border-radius: 10px;
+                border: 1px solid #dbe4ee;
+            }
+
+            .nav-tabs {
+                border-bottom: 0;
+            }
+
+            .symbol-input {
+                max-width: none;
+            }
+
+            .slider-inline {
+                min-width: 0;
+                text-align: left;
+            }
+
+            .result-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .slider-inline .slider {
+                width: 100% !important;
+                margin: 10px 0 0;
+            }
+
+            .table-responsive {
+                overflow-x: visible;
+            }
+
+            .table thead {
+                display: none;
+            }
+
+            .table,
+            .table tbody,
+            .table tr,
+            .table td {
+                display: block;
+                width: 100%;
+            }
+
+            .table tr {
+                border: 1px solid #dbe4ee;
+                border-radius: 10px;
+                margin-bottom: 12px;
+                overflow: hidden;
+                background: #fff;
+            }
+
+            .table tr.success {
+                border-color: #b7d7c1;
+            }
+
+            .table td {
+                text-align: left;
+                border-top: 1px solid #eef3f8 !important;
+                padding: 10px 12px !important;
+            }
+
+            .table td:first-child {
+                border-top: 0 !important;
+                font-weight: 700;
+                background: #f7f9fc;
+            }
+
+            .table td:nth-child(2):before {
+                content: attr(data-label);
+                display: block;
+                color: #7c8a97;
+                font-size: 12px;
+                margin-bottom: 4px;
+            }
+
+            .table td:nth-child(3):before {
+                content: attr(data-label);
+                display: block;
+                color: #7c8a97;
+                font-size: 12px;
+                margin-bottom: 4px;
+            }
+
+            .table td:nth-child(4):before {
+                content: attr(data-label);
+                display: block;
+                color: #7c8a97;
+                font-size: 12px;
+                margin-bottom: 6px;
+            }
+
+            .btn-group.btn-group-xs {
+                display: flex;
+                width: 100%;
+                gap: 4px;
+            }
+
+            .btn-group.btn-group-xs > .btn {
+                float: none;
+                flex: 1;
+            }
+
+            .btn-group.btn-group-xs > .btn + .btn {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
 
 <body>
+    <div id="app">
     <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">SecPwd</a>
             </div>
             <div class="collapse navbar-collapse">
-                <p class="navbar-text navbar-right">
-                    <a target="_blank" href="https://github.com/sszgr/secpwd">
+                <div class="navbar-actions navbar-right">
+                    <div class="lang-switch" aria-label="Language switch">
+                        <a href="#" :class="{ active: lang === 'zh' }" @click.prevent="setLang('zh')">ZH</a>
+                        <span> / </span>
+                        <a href="#" :class="{ active: lang === 'en' }" @click.prevent="setLang('en')">EN</a>
+                    </div>
+                    <a class="navbar-text" target="_blank" href="https://github.com/sszgr/secpwd">
                         <svg aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="16" height="16"
                             data-view-component="true" class="octicon octicon-mark-github d-block mr-2 float-left">
                             <path fill-rule="evenodd"
@@ -46,103 +364,113 @@
                             </path>
                         </svg>
                     </a>
-                </p>
+                </div>
             </div>
         </div>
     </nav>
 
-    <div id="app">
-        <div class="container">
-
-            <div class="starter-template">
-                <h2>安全密码生成工具</h2>
-                <p class="lead">前端使用主密码+辅助密码进行AES后SHA256加密<br />自己搭建可以配合后端来进行密码生成，用于确保密码安全性
+        <div class="container app-shell">
+            <div class="panel-soft starter-template">
+                <h2>{{ t('heroTitle') }}</h2>
+                <p class="lead">{{ t('heroLead') }}
+                    <span class="lead-break">{{ t('heroLeadBreak') }}</span>
                 </p>
             </div>
-        </div>
-        <div class="container">
-            <ul class="nav nav-tabs" id="modeTabs" role="tablist">
-                <li role="presentation"><a href="#cont-main" @click="mgen=true" role="tab" data-toggle="tab"> 双密码</a>
-                </li>
-                <li role="presentation"><a href="#cont-key" @click="mgen=false" role="tab" data-toggle="tab"> 安全KEY</a>
-                </li>
-            </ul>
-        </div>
-        <div class="container tab-content">
-            <div class="tab-container tab-pane" role="tabpanel" id="cont-main">
-                <div class="form-group has-success">
-                    <label class="control-label" for="txtManPwd">主密码</label>
-                    <input type="password" class="form-control" id="txtManPwd" v-model="mpwd"
-                        aria-describedby="helpBlock1">
-                    <span id="helpBlock1" class="help-block">输入一个相对安全且易记的密码，应尽量避免存在个人常用信息。推荐使用较长的组合形式。</span>
+            <div class="panel-soft">
+                <div class="nav-wrap">
+                    <ul class="nav nav-tabs" id="modeTabs" role="tablist">
+                        <li role="presentation"><a href="#cont-main" @click="mgen=true" role="tab" data-toggle="tab">{{ t('tabDual') }}</a>
+                        </li>
+                        <li role="presentation"><a href="#cont-key" @click="mgen=false" role="tab" data-toggle="tab">{{ t('tabKey') }}</a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="form-group has-success">
-                    <label class="control-label" for="txtFlagPwd">辅助密码</label>
-                    <input type="password" class="form-control" id="txtFlagPwd" v-model="fpwd" @input="refresh()"
-                        aria-describedby="helpBlock2">
-                    <span id="helpBlock2" class="help-block">输入一个针对性且不用强调记忆的标识作为辅助密码，如：@baidu.com、QQ、weibo..</span>
+                <div class="tab-content">
+                    <div class="tab-container tab-pane" role="tabpanel" id="cont-main">
+                        <div class="form-group has-success">
+                            <label class="control-label" for="txtManPwd">{{ t('masterPassword') }}</label>
+                            <input type="password" class="form-control" id="txtManPwd" v-model="mpwd"
+                                aria-describedby="helpBlock1">
+                            <span id="helpBlock1" class="help-block">{{ t('masterPasswordHelp') }}</span>
+                        </div>
+                        <div class="form-group has-success">
+                            <label class="control-label" for="txtFlagPwd">{{ t('flagPassword') }}</label>
+                            <input type="password" class="form-control" id="txtFlagPwd" v-model="fpwd" @input="refresh()"
+                                aria-describedby="helpBlock2">
+                            <span id="helpBlock2" class="help-block">{{ t('flagPasswordHelp') }}</span>
+                        </div>
+                    </div>
+                    <div class="tab-container tab-pane" role="tabpanel" id="cont-key">
+                        <div class="form-group has-success">
+                            <label class="control-label" for="txtKeyPwd">SecKey</label>
+                            <input type="text" class="form-control" id="txtKeyPwd" v-model="kpwd" @input="refresh()"
+                                aria-describedby="helpBlock3">
+                            <span id="helpBlock3" class="help-block">{{ t('seckeyHelp') }}</span>
+                        </div>
+                    </div>
+                    <div class="option-row">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" @click="showOpt=!showOpt;refresh()">
+                                {{ t('useSymbols') }}
+                            </label>
+                            <input type="text" v-show="showOpt" class="form-control symbol-input" :placeholder="t('symbolPlaceholder')"
+                                v-model="symbols" @input="refresh()">
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="tab-container tab-pane" role="tabpanel" id="cont-key">
-                <div class="form-group has-success">
-                    <label class="control-label" for="txtKeyPwd">SecKey</label>
-                    <input type="text" class="form-control" id="txtKeyPwd" v-model="kpwd" @input="refresh()"
-                        aria-describedby="helpBlock3">
-                    <span id="helpBlock3" class="help-block">输入一个SHA256值作为SecKey进行密码生成。</span>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" @click="showOpt=!showOpt;refresh()">
-                        使用特殊符号进行密码生成
-                        <input type="text" v-show="showOpt" class="form-control" placeholder="Text input"
-                            v-model="symbols" @input="refresh()">
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th class="col-md-1">#</th>
-                        <th class="col-md-6">key</th>
-                        <th class="col-md-4">
+            <div class="panel-soft result-wrap">
+                <div class="result-card">
+                    <div class="result-header">
+                        <h3>{{ t('resultsTitle') }}</h3>
+                        <div class="slider-inline">
+                            <label for="txtLen">{{ t('passwordLength') }}</label>
                             <input id="txtLen" type="text" data-slider-min="6" data-slider-value="16"
                                 data-slider-max="32" data-slider-step="1" />
-                        </th>
-                        <th class="col-md-1">copy</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <template v-for="item in tdataArr">
-                        <tr :class="[{'success':item.i=='0'}]">
-                            <td>{{ item.i }}</td>
-                            <td :id="'kid-'+item.i">{{ item.k }}</td>
-                            <td :id="'pid-'+item.i" class="pValue">{{ item.p_dis }}</td>
-                            <td>
-                                <div class="btn-group btn-group-xs" role="group"> <button type="button"
-                                        class="btn btn-default btnCopy"
-                                        :data-clipboard-target="'#kid-'+item.i">Key</button>
-                                    <button type="button" class="btn btn-default btnCopy"
-                                        :data-clipboard-target="'#pid-'+item.i">Pwd</button>
-                                </div>
-                            </td>
-                        </tr>
-                    </template>
-                </tbody>
-            </table>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-1">#</th>
+                                    <th class="col-md-6">{{ t('key') }}</th>
+                                    <th class="col-md-4">{{ t('password') }}</th>
+                                    <th class="col-md-1">{{ t('copy') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template v-for="item in tdataArr">
+                                    <tr :class="[{'success':item.i=='0'}]">
+                                        <td>{{ item.i }}</td>
+                                        <td :id="'kid-'+item.i" :data-label="t('key')">{{ item.k }}</td>
+                                        <td :id="'pid-'+item.i" class="pValue" :data-label="t('password')">{{ item.p_dis }}</td>
+                                        <td :data-label="t('copy')">
+                                            <div class="btn-group btn-group-xs" role="group"> <button type="button"
+                                                    class="btn btn-default btnCopy"
+                                                    :data-clipboard-target="'#kid-'+item.i">{{ t('key') }}</button>
+                                                <button type="button" class="btn btn-default btnCopy"
+                                                    :data-clipboard-target="'#pid-'+item.i">{{ t('pwdShort') }}</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
 
-<script src="static/jquery.min.js"></script>
-<script src="static/bootstrap.min.js"></script>
-<script src="static/vue.min.js"></script>
-<script src="static/bootstrap-slider.min.js"></script>
-<script src="static/clipboard.min.js"></script>
-<script src="static/crypto-js.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.staticfile.org/vue/2.7.16/vue.min.js"></script>
+<script src="https://cdn.staticfile.org/bootstrap-slider/10.6.2/bootstrap-slider.min.js"></script>
+<script src="https://cdn.staticfile.org/clipboard.js/2.0.11/clipboard.min.js"></script>
+<script src="https://cdn.staticfile.org/crypto-js/4.2.0/crypto-js.min.js"></script>
 <script src="sec.js"></script>
 
 <script type="text/javascript">
@@ -160,7 +488,53 @@
 </script>
 
 <script type="text/javascript">
+    var messages = {
+        zh: {
+            title: "SecPwd-安全密码生成",
+            heroTitle: "安全密码生成工具",
+            heroLead: "前端使用主密码和辅助密码进行 AES + SHA256 处理",
+            heroLeadBreak: "可自行部署，按需配合后端生成更稳定的密码方案。",
+            tabDual: "双密码",
+            tabKey: "安全 Key",
+            masterPassword: "主密码",
+            masterPasswordHelp: "输入一个相对安全且易记的密码，应尽量避免存在个人常用信息，推荐使用较长的组合形式。",
+            flagPassword: "辅助密码",
+            flagPasswordHelp: "输入与站点或用途相关的标识，如 @baidu.com、QQ、weibo。",
+            seckeyHelp: "输入一个 SHA256 值作为 SecKey 直接生成密码。",
+            useSymbols: "使用特殊符号进行密码生成",
+            symbolPlaceholder: "例如 !@#",
+            resultsTitle: "生成结果",
+            passwordLength: "密码长度",
+            key: "Key",
+            password: "密码",
+            copy: "复制",
+            pwdShort: "Pwd"
+        },
+        en: {
+            title: "SecPwd - Secure Password Generator",
+            heroTitle: "Secure Password Generator",
+            heroLead: "Generate passwords in the browser with AES + SHA256 using a master password and a site-specific secret.",
+            heroLeadBreak: "You can self-host it and optionally pair it with a backend for a more stable password workflow.",
+            tabDual: "Dual Password",
+            tabKey: "Secure Key",
+            masterPassword: "Master Password",
+            masterPasswordHelp: "Use a memorable but strong password, avoid personal defaults, and prefer a longer passphrase-style combination.",
+            flagPassword: "Site Secret",
+            flagPasswordHelp: "Enter a site or usage marker such as @gmail.com, GitHub, or Slack.",
+            seckeyHelp: "Enter a SHA256 value and generate passwords directly from the SecKey.",
+            useSymbols: "Include special symbols in generated passwords",
+            symbolPlaceholder: "For example !@#",
+            resultsTitle: "Generated Results",
+            passwordLength: "Password Length",
+            key: "Key",
+            password: "Password",
+            copy: "Copy",
+            pwdShort: "Pwd"
+        }
+    };
+
     var data = {
+        lang: "zh",
         mpwd: "",
         fpwd: "",
         kpwd: "",
@@ -173,7 +547,29 @@
     var vm = new Vue({
         el: "#app",
         data: data,
+        mounted: function () {
+            var storedLang = window.localStorage.getItem("secpwd-lang");
+            var browserLang = (navigator.language || "").toLowerCase();
+            if (storedLang === "zh" || storedLang === "en") {
+                this.lang = storedLang;
+            } else if (browserLang.indexOf("zh") !== 0) {
+                this.lang = "en";
+            }
+            this.updateLocale();
+        },
         methods: {
+            t: function (key) {
+                return messages[this.lang][key] || messages.zh[key] || key;
+            },
+            setLang: function (lang) {
+                this.lang = lang;
+                window.localStorage.setItem("secpwd-lang", lang);
+                this.updateLocale();
+            },
+            updateLocale: function () {
+                document.title = this.t("title");
+                document.documentElement.lang = this.lang === "zh" ? "zh-CN" : "en";
+            },
             refresh: function () {
                 if (vm.mgen && vm.mpwd) {
                     vm.kpwd = SecObj.GenKey(vm.mpwd, vm.fpwd, vm.symbols);
